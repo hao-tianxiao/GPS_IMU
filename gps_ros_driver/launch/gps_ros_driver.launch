@@ -1,0 +1,10 @@
+<launch>
+
+  <node pkg="gps_ros_driver" type="gps_ros_driver" name="gps_ros_driver" output="screen">
+    <param name="port" value="/dev/ttyUSB0" />
+    <param name="baud" value="230400" />
+    <param name="frame_id" value="world"/>
+    <param name="delay" value="0.0"/>
+  </node>
+
+</launch>

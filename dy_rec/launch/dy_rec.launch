@@ -1,0 +1,6 @@
+<!-- -->
+<launch>
+    <node pkg="dy_rec" type="dy_rec" name="dy_rec" output="screen">
+        <param name="file_path" type="string" value="$(find dy_rec)/nodes/dy_rec/path.txt"/>
+    </node>
+</launch>
