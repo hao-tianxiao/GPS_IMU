@@ -1,6 +1,4 @@
 <!-- -->
 <launch>
-    <node pkg="daoyuan_integrated_navigation" type="daoyuan_integrated_navigation" name="daoyuan_integrated_navigation" output="screen">
-        <param name="file_path" type="string" value="$(find daoyuan_integrated_navigation)/result/path.txt"/>
-    </node>
+    <node pkg="daoyuan_integrated_navigation" type="daoyuan_integrated_navigation" name="daoyuan_integrated_navigation" output="screen" />
 </launch>

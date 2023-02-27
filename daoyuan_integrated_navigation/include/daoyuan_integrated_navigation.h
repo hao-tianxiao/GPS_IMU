@@ -20,12 +20,11 @@
 #include "geometry_msgs/AccelStamped.h"
 namespace daoyuan
 {
-
     class INS570D
     {
     public:
         INS570D();
-        ~INS570D();
+        // ~INS570D();
         // 函数
         void run();
 
@@ -35,21 +34,24 @@ namespace daoyuan
         ros::NodeHandle private_nh;
         // 变量
         serial::Serial Serial_Port;                  // 串口
-        geometry_msgs::PoseStamped initpose;         // 存放初始位姿
-        double lat_rad_zero, lon_rad_zero, alt_zero; // 存放原点弧度制经纬度
-        double current_x, current_y, current_z;      // 存放当前在地球平面坐标系下的坐标
+        geometry_msgs::PoseStamped ENU_zero;         // 存放ENU坐标系原点
+        double lat_rad_zero, lon_rad_zero, alt_zero; // 存放经纬高原点(弧度制)
+        double current_ENU_x, current_ENU_y, current_ENU_z;   // 存放当前在ENU坐标系下的坐标
         double Init_theta;                           // 车体初始偏航角
         bool init_flag;                              // 初始化标志
-        int length;                                  // 单个信息长度
-        int data_packet_start;                       // 单个信息长度
-        double relativeX, relativeY, relativeZ;
+        int single_msg_length;                       // 单个信息长度
+        int data_packet_start;                       // 单个信息起始bit
+        double relativeX, relativeY, relativeZ;      // TODO:将ENU的坐标系转换到小车起点坐标系，似乎小车控制用？
+
+        int LOOP_RATE;
         geometry_msgs::PoseStamped currentpose;
         geometry_msgs::TwistStamped imu_vel;
-        int LOOP_RATE;
-        long double Roll, Pitch, Yaw, Latitude, Longitude, Altitude, w_Y, w_X, w_Z, a_Y, a_X, a_Z, Ve, Vn, Vg, l;
-        geometry_msgs::PoseStamped l_pose;
-        std::string file_path;
-        std::ofstream write_path;   //TODO:不知道这是写什么的
+        long double Roll, Pitch, Yaw;   // 小车的横滚、俯仰、偏航角
+        long double Latitude, Longitude, Altitude;   //RTK的纬度、经度、高度
+        long double w_Y, w_X, w_Z, a_Y, a_X, a_Z;   //惯导角速度、加速度
+        long double Ve, Vn, Vg;     //北向东向地向速度
+        long double gps_status;     //gps状态
+
         // 发布者
         ros::Publisher gps_pub;     // 发布gps信息
         ros::Publisher imu_pub;     // 发布imu信息
@@ -61,10 +63,10 @@ namespace daoyuan
         // 函数
         void initForROS();                                          // 初始化ROS
         bool init_current_pose();                                   // 初始化世界坐标系
-        void publish_slam();                                        // 发布建图用信息
-        void publish_control();                                     // 发布控制用信息
+        void publish_gps(const Eigen::Quaterniond &rotation_quaternion);    // 发布gps信息
+        void publish_imu(const Eigen::Quaterniond &rotation_quaternion);    // 发布惯导信息
         void set_zero(double, double, double);                      // 设置当前位置为地球平面坐标系原点
-        void conv_llh2xyz();                                        // 将经纬度与海拔转换为xyz
+        void LLA2ENU();                                             // 将经纬高转换成ENU东北天坐标系
         void TransformCoordinate(geometry_msgs::PoseStamped &pose); // 地球平面坐标系转化到世界坐标系
         void init_open_serial();                                    // 初始化并打开串口
         void read_serial();                                         // 对串口数据进行处理

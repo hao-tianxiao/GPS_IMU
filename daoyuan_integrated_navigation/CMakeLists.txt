@@ -24,7 +24,5 @@ include_directories(
 )
 
 add_executable(daoyuan_integrated_navigation main.cpp src/daoyuan_integrated_navigation.cpp)
-add_executable(bag_txt src/bag_txt.cpp)
 target_link_libraries(daoyuan_integrated_navigation ${catkin_LIBRARIES})
-target_link_libraries(bag_txt ${catkin_LIBRARIES})
 add_dependencies(daoyuan_integrated_navigation ${catkin_EXPORTED_TARGETS} )

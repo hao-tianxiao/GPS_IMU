@@ -6,7 +6,9 @@ catkin_make -DCATKIN_WHITELIST_PACKAGES="gps_msgs"
 ## 3、编译 daoyuan_integrated_navigation功能包
 catkin_make -DCATKIN_WHITELIST_PACKAGES="daoyuan_integrated_navigation"
 
-
+## 4、运行组合导航节点
+sudo chmod 777 /dev/ttyUSB0
+roslaunch daoyuan_integrated_navigation daoyuan_integrated_navigation.launch
 
 
 
@@ -15,47 +17,10 @@ catkin_make -DCATKIN_WHITELIST_PACKAGES="daoyuan_integrated_navigation"
     主要完成了
 *   接收惯性导航系统(dy-INS570D)信息并发布当前位姿
 
-# 依赖
-*   操作系统 ubuntu 18.04LTS
-*   ROS melodic
-*   cmake 3.17.0
-*   make 4.1
-*   gcc/g++ 7.5.0
-*   pack serial
-
-# 项目的构建与运行
 ## 依赖
-    sudo apt-get install ros-melodic-serial
-## 构建
-    cp -r ${PROJECT_SOURCE_DIR} ~/catkin_ws/src
-    cd ~/catkin_ws/
-    catkin_make -DCATKIN_WHITELIST_PACKAGES="xw_rec"
-## 运行
-未设置串口权限
-```
-sudo chmod 777 /dev/ttyUSB0
-roslaunch xw_rec xw_rec.launch
-```
-或
-```
-cd ~/catkin_ws/src/xw_rec
-sh executable.sh
-```
-若设置完毕串口权限可直接
-```
-roslaunch xw_rec xw_rec.launch
-```
-## 设置串口权限的方法
-```
-sudo gedit /etc/udev/rules.d/70-ttyusb.rules
-#在文件内输入一行
-KERNEL=="ttyUSB[0-9]*",MODE="0666"
-```
-# 输入与输出
+    sudo apt install ros-melodic-serial
 
-## 输入
-惯导接口
-    
+
 ## 输出
 ```
     topic:/current_pose msg:geometry_msgs/PoseStamped 
