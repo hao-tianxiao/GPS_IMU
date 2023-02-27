@@ -1,0 +1,4 @@
+<!-- -->
+<launch>
+    <node pkg="daoyuan_integrated_navigation" type="daoyuan_integrated_navigation" name="daoyuan_integrated_navigation" output="screen" />
+</launch>
